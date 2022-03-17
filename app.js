@@ -26,31 +26,31 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(
-  "local-signup",
+  "local-register",
   new LocalStrategy(
     {
       usernameField: "username",
       passwordField: "password",
       passReqToCallback: true,
     },
-    (req, email, password, done) => {
-      User.findOne({ where: { email } }).then(function (user) {
-        if (user) {
-          return done(null, false, { message: "That email is already taken" });
-        } else {
+    (req, username, password, done) => {
+      console.log("kuchbhi");
+      console.log("kuchbhi");
+      console.log("kuchbhi");
+      
           User.create({ ...req.body }).then((newUser, created) => {
             if (!newUser) return done(null, false);
 
             return done(null, newUser);
           });
-        }
-      });
+        
+      
     }
   )
 );
 
 passport.use(
-  "local-signin",
+  "local-login",
   new LocalStrategy(
     {
       usernameField: "username",
@@ -58,12 +58,15 @@ passport.use(
       passReqToCallback: true, // allows us to pass back the entire request to the callback
     },
     (_req, username, password, done) => {
+      console.log("kuchbhi");
+      console.log("kuchbhi");
+      console.log("kuchbhi");
       User.findOne({ where: { username } })
         .then(function (user) {
           if (!user) {
-            console.log("Username does not exist");
+            console.log("username does not exist");
             return done(null, false, {
-              message: "Username does not exist",
+              message: "username does not exist",
             });
           }
 
@@ -78,7 +81,7 @@ passport.use(
         .catch(function (err) {
           console.error("Error:", err);
           return done(null, false, {
-            message: "Something went wrong with your Signin",
+            message: "Something went wrong with your register",
           });
         });
     }
@@ -124,15 +127,15 @@ app.get("/logout", function (req, res) {
 
 app.post(
   "/register",
-  passport.authenticate("local-signup", {
-    successRedirect: "/secrets",
+  passport.authenticate("local-register", {
+    successRedirect: "/login",
     failureRedirect: "/register",
   })
 );
 
 app.post(
   "/login",
-  passport.authenticate("local-signin", {
+  passport.authenticate("local-login", {
     successRedirect: "/secrets",
     failureRedirect: "/login",
   })

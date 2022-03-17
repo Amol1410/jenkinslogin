@@ -11,8 +11,11 @@ User.init(
     password: DataTypes.STRING,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    dob: DataTypes.DATE,
-    email: DataTypes.STRING,
+    dob: DataTypes.STRING,
+    phone: DataTypes.STRING,
+    role: DataTypes.STRING,
+    salary: DataTypes.STRING,
+    bonus: DataTypes.STRING,
   },
   { sequelize, modelName: "user" }
 );
